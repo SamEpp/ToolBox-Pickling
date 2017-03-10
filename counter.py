@@ -5,7 +5,7 @@ import sys
 from pickle import dump, load
 
 
-def update_counter(file_name, reset=False):
+def update_counter(s, reset=False):
     """ Updates a counter stored in the file 'file_name'
 
     A new counter will be created and initialized to 1 if none exists or if
@@ -30,7 +30,23 @@ def update_counter(file_name, reset=False):
     >>> update_counter('blah2.txt')
     2
     """
-    pass
+    if exists(s):
+        if reset == False:
+            file_exists = open(s, 'rb+')
+            new_value = load(file_exists)+1
+            file_exists.close()
+            f = open(s, 'wb')
+            dump(new_value, f)
+            return new_value
+        else:
+            f = open(s, 'wb')
+            dump(1, f)
+            return 1
+
+    else:
+        f = open(s, 'wb')
+        dump(1, f)
+        return 1
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
